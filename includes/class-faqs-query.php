@@ -45,19 +45,46 @@ class FAQs_Query extends Utilities {
 	protected $order;
 
 	/**
+	 * The number of faqs to show
+	 *
+	 * @var int $limit
+	 */
+	protected $limit;
+
+/**
+	 * The H tag of faqs title show
+	 *
+	 * @var string $header
+	 */
+	protected $header;
+
+/**
+	 * The H tag of faqs title show
+	 *
+	 * @var string $more
+	 */
+	protected $more;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string       $display Display type of plugin.
 	 * @param bool | array $filters The filters of this plugin.
 	 * @param string       $orderby FAQs posts order by.
 	 * @param string       $order FAQs posts order.
+	 * @param int			$limit FAQs to show (quantity).
+	 * @param header		$header  FAQs posts order.
+	 * @param more			$more  Toggle more faqs.
 	 */
-	public function __construct( $display = '', $filters = false || array(), $orderby = 'date', $order = 'DESC' ) {
+	public function __construct( $display = '', $filters = false || array(), $orderby = 'date', $order = 'DESC', $limit = null, $header = 'h4', $more = 'false' ) {
 
 		$this->display = $display;
 		$this->filters = $filters;
 		$this->orderby = $orderby;
 		$this->order   = $order;
+		$this->limit   = $limit;
+		$this->header   = $header;
+		$this->more   	= $more;
 
 		if ( $this->filters && ! is_array( $this->filters ) ) {
 
@@ -81,7 +108,7 @@ class FAQs_Query extends Utilities {
 
 		$query = array(
 			'post_type'      => 'faq',
-			'posts_per_page' => - 1,
+			'posts_per_page' => $this->limit,
 			'orderby'        => $this->orderby,
 			'order'          => $this->order,
 		);
@@ -182,11 +209,11 @@ class FAQs_Query extends Utilities {
 			} else {
 				$terms_slugs = $this->get_terms_slugs( $faq_ids );
 				?>
-				
+
 					<li class="<?php echo esc_attr( implode( ' ', $terms_slugs ) ); ?>">
 						<a href="#qaef-<?php echo esc_attr( $faq_ids ); ?>"><?php echo esc_html( get_the_title( $faq_ids ) ); ?></a>
 					</li>
-				
+
 				<?php
 			}
 		}
@@ -222,7 +249,7 @@ class FAQs_Query extends Utilities {
 		if ( $this->filters ) {
 			?>
 			<ul class="qe-faqs-filters-container">
-				<li><a class="qe-faqs-filter" href="#" data-filter="*"><?php esc_html_e( 'All', 'quick-and-easy-faqs' ); ?></a></li>
+				<li class="active"><a class="qe-faqs-filter all-faqs" href="#" data-filter="*"><?php esc_html_e( 'All', 'quick-and-easy-faqs' ); ?></a></li>
 				<?php
 				foreach ( $this->filters as $term ) {
 					$term_object = get_term_by( 'slug', $term, 'faq-group' );
@@ -234,6 +261,30 @@ class FAQs_Query extends Utilities {
 			</ul>
 			<?php
 		}
+	}
+
+	/**
+	 * Build and render render_faqs_limit	
+	 */
+	protected function render_faqs_limit() {
+
+		$more = $this->more;
+
+		if ( $more == 'true'  ) {
+		echo 
+			'<!-- wp:buttons {"className":"load-more-btn tw-lg-hidden tw-md-hidden tw-sm-hidden","layout":{"type":"flex","justifyContent":"center"}} -->
+			<div class="wp-block-buttons load-more-btn tw-lg-hidden tw-md-hidden tw-sm-hidden" id="loadmore"><!-- wp:button {"className":"unloaded is-style-fill"} -->
+			<div class="wp-block-button unloaded is-style-fill"><a class="wp-block-button__link wp-element-button" href="#faqs" rel="">Ver todas</a></div>
+			<!-- /wp:button -->
+
+			<!-- wp:button {"className":"loaded is-style-outline"} -->
+			<div class="wp-block-button loaded is-style-outline"><a class="wp-block-button__link wp-element-button" href="#faqs">Ver menos</a></div>
+			<!-- /wp:button --></div>
+			<!-- /wp:buttons --></div>';
+		} else {
+
+		}
+
 	}
 
 	/**
@@ -265,6 +316,10 @@ class FAQs_Query extends Utilities {
 			$class = 'toggle';
 		}
 
+		$header = $this->header;
+
+
+		
 		$terms_slugs = $this->get_terms_slugs( $id );
 
 		$back_to_index = $this->get_option( 'faqs_hide_back_index', 'qaef_basics' );
@@ -272,12 +327,12 @@ class FAQs_Query extends Utilities {
 		?>
 		<div id="qaef-<?php echo esc_attr( $id ); ?>" class="qe-faq-<?php echo esc_attr( $class ) . ' ' . esc_attr( implode( ' ', $terms_slugs ) ); ?>">
 			<div class="qe-<?php echo esc_attr( $class ); ?>-title">
-				<h4>
+				<<?php echo $header; ?> class="faq-title">
 					<?php
 					echo wp_kses( $this->get_the_icon(), array( 'i' => array( 'class' => array() ) ) );
 					echo esc_html( get_the_title( $id ) );
 					?>
-				</h4>
+				</<?php echo $header; ?>>
 			</div>
 			<div class="qe-<?php echo esc_attr( $class ); ?>-content">
 				<?php
@@ -308,7 +363,7 @@ class FAQs_Query extends Utilities {
 
 			foreach ( $faq_terms_posts as $slug => $faq_ids ) {
 				$term_object = get_term_by( 'slug', $slug, 'faq-group' );
-				echo '<h3 class="qe-faqs-group-title">' . esc_html( $term_object->name ) . '</h3>';
+			//	echo '<h3 class="qe-faqs-group-title">' . esc_html( $term_object->name ) . '</h3>';
 				foreach ( $faq_ids as $id ) {
 					$this->build_faqs_structure( $id );
 				}
@@ -325,6 +380,11 @@ class FAQs_Query extends Utilities {
 	public function render() {
 
 		$faq_posts = new \WP_Query( $this->faqs_query );
+		$more = $this->more;
+
+		if ($more == "true") {
+			$id = 'faqs';
+		}
 
 		$class = 'toggle';
 		if ( empty( $this->display ) || 'grouped' === $this->display ) {
@@ -332,12 +392,12 @@ class FAQs_Query extends Utilities {
 		}
 
 		if ( $faq_posts->have_posts() ) : ?>
-            <div class="qae-faqs-container qae-faqs-<?php echo esc_attr( $class ); ?>-container">
+            <div id="<?php echo $id ?>" class="qae-faqs-container qae-faqs-<?php echo esc_attr( $class ); ?>-container">
 				<?php
 				$faqs_array     = $faq_posts->posts;
 				$faqs_posts_ids = wp_list_pluck( $faqs_array, 'ID' );
 
-				$this->build_faqs_filter_structure();
+			//	$this->build_faqs_filter_structure();
 
 				$this->render_faqs_title( $faqs_posts_ids );
 
@@ -348,6 +408,8 @@ class FAQs_Query extends Utilities {
 						$this->render_faqs( get_the_ID() );
 					endwhile;
 				}
+
+				$this->render_faqs_limit();
 				?>
             </div>
 		<?php

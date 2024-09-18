@@ -49,7 +49,7 @@ class Frontend extends Utilities {
 	public function enqueue_public_styles() {
 
 		if ( ! $this->is_shortcode_being_used() ) {
-			return;
+//			return;
 		}
 
 		$faqs_fa_style = $this->get_option( 'faqs_fontawesome_style', 'qaef_basics' );
@@ -94,7 +94,7 @@ class Frontend extends Utilities {
 	public function enqueue_public_scripts() {
 
 		if ( ! $this->is_shortcode_being_used() ) {
-			return;
+//			return;
 		}
 		wp_register_script(
 			$this->plugin_name,

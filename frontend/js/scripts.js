@@ -54,4 +54,11 @@
         }
     });
 
+    /**
+     * load more
+     */
+    jQuery('#loadmore a').click(function () {
+         jQuery('#faqs').toggleClass('show');
+    });
+
 })(jQuery);

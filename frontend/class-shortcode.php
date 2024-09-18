@@ -25,6 +25,11 @@ class Shortcode extends Utilities {
 	private $version;
 
 	/**
+	 * @var false
+	 */
+	private $shortcode_being_used;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @var string $plugin_name
@@ -84,8 +89,11 @@ class Shortcode extends Utilities {
 				array(
 					'style'   => '',    // Possible Values: toggle, accordion, toggle-grouped, accordion-grouped
 					'filter'  => false,
+					'header'  => 'h4',
+					'more' 	  => 'false',
 					'orderby' => 'date',
 					'order'   => 'DESC',
+					'limit'   => -1,
 				),
 				$attributes,
 				'faqs'
@@ -99,7 +107,7 @@ class Shortcode extends Utilities {
 
 		ob_start();
 
-		$faqs_query = new FAQs_Query( $style, $filter, $orderby, $order );
+		$faqs_query = new FAQs_Query( $style, $filter, $orderby, $order, $limit, $header, $more );
 		$faqs_query->render();
 
 		wp_localize_script(
