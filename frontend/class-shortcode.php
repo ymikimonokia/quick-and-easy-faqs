@@ -91,6 +91,8 @@ class Shortcode extends Utilities {
 					'filter'  => false,
 					'header'  => 'h4',
 					'more' 	  => 'false',
+					'side' 	  => 'false',
+					'clase'   => 'false',
 					'orderby' => 'date',
 					'order'   => 'DESC',
 					'limit'   => -1,
@@ -107,7 +109,7 @@ class Shortcode extends Utilities {
 
 		ob_start();
 
-		$faqs_query = new FAQs_Query( $style, $filter, $orderby, $order, $limit, $header, $more );
+		$faqs_query = new FAQs_Query( $style, $filter, $orderby, $order, $limit, $header, $more, $side, $clase );
 		$faqs_query->render();
 
 		wp_localize_script(

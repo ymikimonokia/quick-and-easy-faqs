@@ -4,7 +4,7 @@
  * Plugin URI:          https://github.com/ymikimonokia/quick-and-easy-faqs
  * GitHub Plugin URI:   https://github.com/ymikimonokia/quick-and-easy-faqs
  * Description:         A quick and easy way to add ARTs to your site.
- * Version:             1.2.7
+ * Version:             1.2.8
  * Author:              Mikel Marqués Gallego
  * Author Uri:          https://agencialibre.xyz/arts
  * License:           	GPL-2.0+

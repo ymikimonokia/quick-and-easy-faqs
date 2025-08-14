@@ -51,19 +51,33 @@ class FAQs_Query extends Utilities {
 	 */
 	protected $limit;
 
-/**
+	/**
 	 * The H tag of faqs title show
 	 *
 	 * @var string $header
 	 */
 	protected $header;
 
-/**
-	 * The H tag of faqs title show
+	/**
+	 * The option to show all faqs or toggle from 3º
 	 *
 	 * @var string $more
 	 */
 	protected $more;
+
+	/**
+	 * The option to align the loadmore buttons
+	 *
+	 * @var string $side
+	 */
+	protected $side;
+
+	/**
+	 * The css class for loadmore buttons
+	 *
+	 * @var string $clase
+	 */
+	protected $clase;	
 
 	/**
 	 * Initialize the class and set its properties.
@@ -75,8 +89,10 @@ class FAQs_Query extends Utilities {
 	 * @param int			$limit FAQs to show (quantity).
 	 * @param header		$header  FAQs posts order.
 	 * @param more			$more  Toggle more faqs.
+	 * @param side			$side  Align the loadmore buttons.
+	 * @param clase			$clase  Aditional CSS clase.
 	 */
-	public function __construct( $display = '', $filters = false || array(), $orderby = 'date', $order = 'DESC', $limit = null, $header = 'h4', $more = 'false' ) {
+	public function __construct( $display = '', $filters = false || array(), $orderby = 'date', $order = 'DESC', $limit = null, $header = 'h4', $more = 'false', $side = 'false', $clase = 'false' ) {
 
 		$this->display = $display;
 		$this->filters = $filters;
@@ -85,6 +101,8 @@ class FAQs_Query extends Utilities {
 		$this->limit   = $limit;
 		$this->header   = $header;
 		$this->more   	= $more;
+		$this->side   	= $side;
+		$this->clase   	= $clase;
 
 		if ( $this->filters && ! is_array( $this->filters ) ) {
 
@@ -269,11 +287,12 @@ class FAQs_Query extends Utilities {
 	protected function render_faqs_limit() {
 
 		$more = $this->more;
+		$side = $this->side;
 
 		if ( $more == 'true'  ) {
 		echo 
 			'<!-- wp:buttons {"className":"load-more-btn tw-lg-hidden tw-md-hidden tw-sm-hidden","layout":{"type":"flex","justifyContent":"center"}} -->
-			<div class="wp-block-buttons load-more-btn tw-lg-hidden tw-md-hidden tw-sm-hidden" id="loadmore"><!-- wp:button {"className":"unloaded is-style-fill"} -->
+			<div class="wp-block-buttons load-more-btn is-content-justification-'.$side.'" id="loadmore"><!-- wp:button {"className":"unloaded is-style-fill"} -->
 			<div class="wp-block-button unloaded is-style-fill"><a class="wp-block-button__link wp-element-button" href="#faqs" rel="">Ver todas</a></div>
 			<!-- /wp:button -->
 
@@ -317,6 +336,7 @@ class FAQs_Query extends Utilities {
 		}
 
 		$header = $this->header;
+		$clase = $this->clase;	
 
 
 		
@@ -324,10 +344,12 @@ class FAQs_Query extends Utilities {
 
 		$back_to_index = $this->get_option( 'faqs_hide_back_index', 'qaef_basics' );
 
-		?>
+
+?>
+
 		<div id="qaef-<?php echo esc_attr( $id ); ?>" class="qe-faq-<?php echo esc_attr( $class ) . ' ' . esc_attr( implode( ' ', $terms_slugs ) ); ?>">
 			<div class="qe-<?php echo esc_attr( $class ); ?>-title">
-				<<?php echo $header; ?> class="faq-title">
+				<<?php echo $header; ?> class="faq-title <?php echo  esc_attr( $clase ); ?>">
 					<?php
 					echo wp_kses( $this->get_the_icon(), array( 'i' => array( 'class' => array() ) ) );
 					echo esc_html( get_the_title( $id ) );

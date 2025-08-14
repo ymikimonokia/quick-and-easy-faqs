@@ -1,92 +1,134 @@
-/**
- * Less For FAQs Styles
- */
-
-.qe-faq-content {
-  padding-top: 1px;
+.qe-faqs-filters-container,
+.qe-toggle-title i,
+ol.qe-faqs-index-list {
+    display: none;
 }
 
-.qe-faq-content i.fa {
-  margin-right: 0.3em;
+/**/
+.woocommerce-page h2.faq-group-title {
+    font-size: var(--heading--font-size-h3);
+    letter-spacing: var(--heading--letter-spacing-h3);
+    line-height: var(--heading--line-height-h3);
+    margin-bottom: 2rem;
+}
+/**/
+
+.qe-faq-toggle .faq-title 
+{
+    display:flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
 }
 
-.qe-faq-content .qe-faq-top {
-  display: inline-block;
-  margin-bottom: 1em;
+.qe-faq-toggle .faq-title:after{
+    font-family: 'Material Icons';
+    font-size: 24px;
+    position: absolute;
+    line-height: normal;
+    font-weight: 100;
+    flex: 1;
+    right: 0;
+    position: absolute;
 }
 
-.qe-faq-toggle {
-  margin-bottom: 2px;
-  transition: all 0.5s;
+.qe-faq-toggle .faq-title:after{
+    content:"\e5cf";
+
 }
 
-/* Fix for twent twenty theme */
-.entry-content .qe-faq-toggle{
-  margin-bottom: 2px;
-}
-
-.qe-faq-toggle .qe-toggle-title {
-  background-color: #fafafa;
-  border: 1px solid #ddd;
-  margin: 0;
-  height: auto;
-  cursor: pointer;
-  transition: all 0.2s;
-  padding: 1em;
-}
-
-.qe-faq-toggle .qe-toggle-title h4 {
-  font-size: inherit;
-  margin: 0;
-}
-
-.qe-faq-toggle .qe-toggle-title i.fa {
-  margin-right: 0.5em;
-}
-
-.qe-faq-toggle.active .qe-toggle-title, .qe-faq-toggle .qe-toggle-title:hover {
-  background-color: #eaeaea;
+.qe-faq-toggle.active .faq-title:after
+{
+    content:"\e5ce";
 }
 
 .qe-faq-toggle .qe-toggle-content {
-  padding: 1.5em 1.5em 0.3em;
-  margin: 0;
-  border: 1px solid #ddd;
-  display: none;
+    padding: 1em 1.5em 1em;
+    margin: 0;
+    border: 1px solid #ddd;
+    display: none;
 }
 
-.qe-faq-toggle .qe-toggle-content p, .qe-faq-list .qe-list-content p {
-  color: inherit;
+.qe-faq-toggle:not(:first-of-type) {
+    padding: 1rem 0 1rem;
 }
 
-.nojs.qe-faq-toggle .qe-toggle-content {
-  display: block;
+.qe-faq-toggle.active:not(:first-of-type) {
+    /* padding: 1rem 0 2rem; */
+    /* margin: 1rem 0 1rem; */
 }
 
-.qe-faqs-filters-container {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1em;
+.qe-faq-toggle:first-of-type {
+    padding: 0rem 0 1rem;
 }
 
-.qe-faqs-filters-container li {
-  display: inline;
-  padding: 0;
-  margin: 0;
+.qe-faq-toggle.active:first-of-type {
+    /* padding: 0rem 0 2rem; */
+    /* margin: 0rem 0 2rem; */
 }
 
-.qe-faqs-filters-container li a {
-  display: inline-block;
-  border-bottom: 1px solid;
-  padding: 5px 10px;
-  margin: 0 10px 0 0;
+.qe-faq-toggle:last-of-type {
+    padding: 1rem 0 0rem;
+    margin-bottom:0rem;
 }
 
-.qe-faqs-filters-container li a:hover {
-  border-bottom: 2px solid;
+.qe-faq-toggle .qe-toggle-title .faq-title {
+    font-size: larger;
+    margin: 0 !important;
+    padding-right: 50px;
 }
 
-.qe-faqs-filters-container li.active a {
-  border-bottom: 2px solid;
-  font-weight: bold;
+.qe-faq-toggle .qe-toggle-title i.fa {
+    margin-right: 0;
+}
+
+.qe-faq-toggle .qe-toggle-title {
+    background-color: transparent !important;
+    border: 0px solid #ddd;
+    margin: 0;
+    height: auto;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0rem 0;
+    /* padding: 0; */
+}
+
+.qe-faq-toggle .qe-toggle-content {
+    padding: 0em 0em;
+    margin-top: 1rem;
+    border: 0px solid #ddd;
+    display: none;
+}
+
+.qe-faq-toggle.active {
+    /* padding: 2rem 0; */
+    /* border: 0px; */
+    /* border-top: 1px solid #ddd; */
+    /* border-bottom: 1px solid #ddd; */
+    /* transition: all 0s; */
+}
+
+.qe-faq-toggle.active:first-of-type {
+    /* border-top: 0px solid #ddd; */
+    /* border-bottom: 1px solid #ddd; */
+}
+
+.qe-faq-toggle.active:last-of-type {
+    border-bottom: 0px solid #ddd;
+}
+
+.qe-faq-toggle.active:not(:first-of-type) .qe-toggle-title {
+    /* padding: 1rem 0; */
+}
+
+.qe-faq-toggle.active:first-of-type .qe-toggle-title {
+    /* padding: 0 0 1rem; */
+}
+
+.qae-faqs-container.qae-faqs-toggle-container p:first-of-type {
+    margin-top: 0;
+}
+
+.qae-faqs-container.qae-faqs-toggle-container p:last-of-type {
+    margin-bottom: 0;
 }
